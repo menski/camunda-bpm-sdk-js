@@ -66,29 +66,29 @@ describe('The form', function() {
 
 
   it('initialize', function() {
-    expect(typeof CamFormSDK).toBe('function');
-
-    expect(camNet).toBeTruthy();
-
-    expect(function() {
-      camForm = new CamFormSDK($simpleFormDoc.find('form[cam-form]'), {
-        service: camNet,
-        processDefinitionId: procDef.id
-      });
-    }).not.toThrow();
-
-    expect(camForm.formFieldHandlers instanceof Array).toBe(true);
-
-    expect(camForm.fields instanceof Array).toBe(true);
-
     var initialized;
     runs(function() {
-      camForm.initialize(function() {
-        initialized = true;
-      });
+      expect(typeof CamFormSDK).toBe('function');
+
+      expect(camNet).toBeTruthy();
+
+      expect(function() {
+        camForm = new CamFormSDK({
+          service: camNet,
+          processDefinitionId: procDef.id,
+          formElement: $simpleFormDoc.find('form[cam-form]'),
+          initialized: function() {
+            initialized = true;
+          }
+        });
+      }).not.toThrow();
+
+      expect(camForm.formFieldHandlers instanceof Array).toBe(true);
+
+      expect(camForm.fields instanceof Array).toBe(true);
     });
 
-    waitsFor('value to be applied to input field', function() {
+    waitsFor('form to be initialized', function() {
       return initialized;
     }, 2000);
 
@@ -107,16 +107,13 @@ describe('The form', function() {
     var initialized, submitted, submissionError, submissionResponse;
     runs(function() {
       expect(function() {
-        camForm = new CamFormSDK($simpleFormDoc.find('form[cam-form]'), {
+        camForm = new CamFormSDK({
           service: camNet,
-          processDefinitionId: procDef.id
-        });
-
-        camForm.initialize(function(err) {
-          if (err) {
-            throw err;
+          processDefinitionId: procDef.id,
+          formElement: $simpleFormDoc.find('form[cam-form]'),
+          initialized: function() {
+            initialized = true;
           }
-          initialized = true;
         });
       }).not.toThrow();
 
