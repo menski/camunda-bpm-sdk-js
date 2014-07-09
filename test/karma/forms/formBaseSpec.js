@@ -72,17 +72,33 @@ describe('The form', function() {
 
     expect(function() {
       camForm = new CamFormSDK($simpleFormDoc.find('form[cam-form]'), {
-        service: camNet
+        service: camNet,
+        processDefinitionId: procDef.id
       });
     }).not.toThrow();
 
     expect(camForm.formFieldHandlers instanceof Array).toBe(true);
 
     expect(camForm.fields instanceof Array).toBe(true);
+    var ok;
+    runs(function() {
+      camForm.initialize(function() {
+        ok = true;
+      });
+    });
+
+    waitsFor("value to be applied to input field", function() {
+      return ok;
+    });
+
+    runs(function() {
+      expect($simpleFormDoc.find('input[type=text]').val())
+        .toBeTruthy();
+    });
   });
 
 
-  it('harvests variables', function() {
+ /** it('harvests variables', function() {
     var result;
     runs(function() {
       camForm.fetchVariables(function(err, result) {
@@ -96,6 +112,6 @@ describe('The form', function() {
 
     runs(function() {
 
-    });
-  });
+    }); 
+  }); */
 });
