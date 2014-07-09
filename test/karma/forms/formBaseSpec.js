@@ -81,15 +81,15 @@ describe('The form', function() {
 
     expect(camForm.fields instanceof Array).toBe(true);
 
-    var ok;
+    var initialized;
     runs(function() {
       camForm.initialize(function() {
-        ok = true;
+        initialized = true;
       });
     });
 
     waitsFor('value to be applied to input field', function() {
-      return ok;
+      return initialized;
     }, 2000);
 
     runs(function() {
@@ -103,20 +103,62 @@ describe('The form', function() {
   });
 
 
- /** it('harvests variables', function() {
-    var result;
+  it('submits the form', function() {
+    var initialized, submitted, submissionError, submissionResponse;
     runs(function() {
-      camForm.fetchVariables(function(err, result) {
+      expect(function() {
+        camForm = new CamFormSDK($simpleFormDoc.find('form[cam-form]'), {
+          service: camNet,
+          processDefinitionId: procDef.id
+        });
 
+        camForm.initialize(function(err) {
+          if (err) {
+            throw err;
+          }
+          initialized = true;
+        });
+      }).not.toThrow();
+
+    });
+
+    waitsFor(function() {
+      return initialized;
+    }, 2000);
+
+    runs(function() {
+      var $el = $simpleFormDoc.find('input[type=text]');
+
+      expect($el.length).toBe(1);
+
+      $el.val('updated');
+
+      camForm.submit(function(err, result) {
+        submitted = true;
+        submissionError = err;
+        submissionResponse = result;
       });
     });
 
     waitsFor(function() {
-
-    }, 4000);
+      return submitted;
+    }, 2000);
 
     runs(function() {
+      expect(submissionError).toBeFalsy();
 
+      expect(submissionResponse.links).toBeTruthy();
+
+      expect(submissionResponse.definitionId).toBe(procDef.id);
+
+      var stored = CamSDKMocks.mockedData.processInstanceFormVariables[submissionResponse.id];
+      expect(stored).toBeTruthy();
+
+      expect(stored.stringVar).toBeTruthy();
+
+      expect(stored.stringVar.type).toBe('string');
+
+      expect(stored.stringVar.value).toBe('updated');
     });
-  }); */
+  });
 });
