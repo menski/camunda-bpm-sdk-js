@@ -80,6 +80,7 @@ describe('The form', function() {
     expect(camForm.formFieldHandlers instanceof Array).toBe(true);
 
     expect(camForm.fields instanceof Array).toBe(true);
+
     var ok;
     runs(function() {
       camForm.initialize(function() {
@@ -89,10 +90,14 @@ describe('The form', function() {
 
     waitsFor("value to be applied to input field", function() {
       return ok;
-    });
+    }, 2000);
 
     runs(function() {
-      expect($simpleFormDoc.find('input[type=text]').val())
+      var $el = $simpleFormDoc.find('input[type=text]');
+
+      expect($el.length).toBe(1);
+
+      expect($el.val())
         .toBeTruthy();
     });
   });
@@ -112,6 +117,6 @@ describe('The form', function() {
 
     runs(function() {
 
-    }); 
+    });
   }); */
 });
