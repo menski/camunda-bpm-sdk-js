@@ -1,5 +1,5 @@
 describe('The form', function() {
-  /* global jQuery: false, CamSDK: false */
+  /* global jQuery: false, CamSDK: false, CamSDKMocks: false, CamFormSDK: false */
   'use strict';
   var $simpleFormDoc;
   var camForm, camNet, procDef;
@@ -88,7 +88,7 @@ describe('The form', function() {
       });
     });
 
-    waitsFor("value to be applied to input field", function() {
+    waitsFor('value to be applied to input field', function() {
       return ok;
     }, 2000);
 
