@@ -18,6 +18,11 @@ module.exports = function() {
 
     'dev-form': {
       options: {
+
+        browsers: [
+          'Chrome'
+        ],
+
         files: [
           {pattern: 'dist/camunda-bpm-sdk.js', included: true},
           {pattern: 'dist/camunda-bpm-sdk-mock.js', included: true},
