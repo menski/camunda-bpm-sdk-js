@@ -20,8 +20,8 @@ Javascript client library for [camunda BPM](https://github.com/camunda/camunda-b
   var CamundaClient = require('camunda-bpm-sdk-js');
 
   cam = new CamundaClient({
-    apiUri: 'http://localhost:8080/engine-rest/',
-    // HttpClient: require('./../../lib/http-client-mock')
+    // HttpClient: require('./../../lib/http-client-mock'),
+    apiUri: 'http://localhost:8080/engine-rest/'
   });
   
   
@@ -76,11 +76,11 @@ var cam = require('camunda-bpm-sdk-js');
 
 ## Development
 
-```bash
+```sh
 npm install
 ```
 
-```bash
+```sh
 grunt auto-build
 ```
 
@@ -91,7 +91,7 @@ https://app.camunda.com/jira/browse/CAM/component/12351
 
 ## License
 
-[Apache License 2.0](./LICENSE)
+Unless otherwise specified this project is licensed under [Apache License Version 2.0](./LICENSE).
 
 ## Authors
 
